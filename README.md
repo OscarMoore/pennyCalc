@@ -1,3 +1,7 @@
 # pennyCalc
 
-A simple change calculator.
+· Calculate pennies into change, using the smallest amount of coins.
+
+· Show only required change using text & images.
+
+[Live Demo](https://www.joydevs.co.uk/GitHub/pennyCalc.html)
