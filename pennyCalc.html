@@ -2,17 +2,67 @@
 <html>
 
 <head>
-	<meta charset="utf-8">
-	<title>pennyCalc - The ultimate penny calculator!</title>
-
-
+    <meta charset="utf-8">
+    <title>pennyCalc - The ultimate penny calculator!</title>
+    <!--Some simple styling-->
     <style>
     #pennies{width:6em; vertical-align:middle;}
     #submit{text-align: center;}
     .mainCalc{text-align:center; align-content:center;}
     .headings{text-align:center;color:white;}
     body{margin-top:200px; background-color:lightblue;}
+    #printResult{text-align: center; padding-top:40px;}
     </style>
+
+    <script>
+    //Start calculate function for penny amount
+    function calculate() {
+        var list = []
+        var x = document.getElementById("pennies").value;
+            //First take pennies, divide by 200 to get the amount of £2 coins from pennies
+            resultTwoPounds = x/200;
+            //Push this amount to array and round down using math.floor
+            list.push(Math.floor(resultTwoPounds));
+            //Now the same for £1 coins but without multiplying
+            resultPounds = x/100;
+            list.push(Math.floor(resultPounds));
+            //Now take the remainder and divide by the coin amounts to get amount for each coin type 
+            //For 50p
+            remaining = x%100;
+            remainPennyFifty = Math.floor(remaining/50);
+            list.push(remainPennyFifty);
+            //For 20p
+            remaining = x%100;
+            remainPennyTwenty = Math.floor(remaining/20);
+            list.push(remainPennyTwenty);
+            //For 10p
+            remaining = x%100;
+            remainPennyTen = Math.floor(remaining/10);
+            list.push(remainPennyTen);
+            //For 5p
+            remaining = x%10;
+            list.push(Math.floor(remaining/5));
+            //For 2p
+            remaining = x%10;
+            list.push(Math.floor(remaining/2));
+            //For 1p
+            remaining = x%10;
+            list.push(Math.floor(remaining));
+            //If pennies > 0 then set resultLine to show amounts by calling array values
+            if (x > 0){
+                resultLine = "You have <strong>" + x + " pennies</strong>, breakdown as follows: <br><br><strong>£2</strong> *" + list[0] + "<br><br><strong>" + "£1</strong> *" + list[1] + "<br><br><strong>50p</strong>" + " *" + list[2] + "<br><br><strong>20p</strong>" + " *" + list[3]+ "<br><br><strong>10p</strong>" + " *" + list[4] + "<br><br><strong>5p</strong>" + " *" + list[5] + "<br><br><strong>2p</strong>" + " *" + list[6] + "<br><br><strong>1p</strong>" + " *" + list[7]
+            //Else return error message
+            } else {
+                resultLine = "Please enter an amount"
+            }
+            //Get html element to display resultLine
+            document.getElementById('result').innerHTML = resultLine;
+            //Stops page reloading once submit button pressed
+            $("#submit").submit(function(e) {
+                e.preventDefault();
+            });
+    }
+    </script>
 </head>
 
 <body>
@@ -20,17 +70,20 @@
     <h1>pennyCalc<h1>
 </div>
 
-<!-- Start of form -->
+<!-- Start of the form -->
 <form onsubmit="return false">
     <div class="mainCalc">
         <br>
         <strong>p:</strong>
         <input type="number" placeholder=" Amount" step="1"  min="0" id="pennies">
         <br>
-        <button type="buttom" id="submit" onclick="">Calculate!</button>
+        <!-- Once submit is clicked, run calculate function -->
+        <button type="buttom" id="submit" onclick="calculate()">Calculate!</button>
         <br>
     </div>
 <form>
+    <!-- Area which resultLine is printed to -->
+    <div id="printResult"><span id="result"></span></div>
 </body>
 
 </html>
