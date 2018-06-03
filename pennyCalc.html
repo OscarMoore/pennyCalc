@@ -11,56 +11,75 @@
     .mainCalc{text-align:center; align-content:center;}
     .headings{text-align:center;color:white;}
     body{margin-top:200px; background-color:lightblue;}
-    #printResult{text-align: center; padding-top:40px;}
+    #printResult{text-align:center; padding-top:40px;}
+
+    #twoPound{background-image: url("2Pound.png");background-repeat: no-repeat;background-position: center; padding:41px;}
+    #twoPound span{background-color:white; padding:5px;}
+    #onePound{background-image: url("1Pound.png");background-repeat: no-repeat;background-position: center; padding:41px;}
+    #onePound span{background-color:white; padding:5px;}
+    #fiftyPence{background-image: url("50Pence.png");background-repeat: no-repeat;background-position: center; padding:41px;}
+    #fiftyPence span{background-color:white; padding:5px;}
+    #twentyPence{background-image: url("20Pence.png");background-repeat: no-repeat;background-position: center; padding:41px;}
+    #twentyPence span{background-color:white; padding:5px;}
+    #tenPence{background-image: url("10Pence.png");background-repeat: no-repeat;background-position: center; padding:41px;}
+    #tenPence span{background-color:white; padding:5px;}
+    #fivePence{background-image: url("5Pence.png");background-repeat: no-repeat;background-position: center; padding:41px;}
+    #fivePence span{background-color:white; padding:5px;}
+    #twoPence{background-image: url("2Pence.png");background-repeat: no-repeat;background-position: center; padding:41px;}
+    #twoPence span{background-color:white; padding:5px;}
+    #onePence{background-image: url("1Pence.png");background-repeat: no-repeat;background-position: center; padding:41px;}
+    #onePence span{background-color:white; padding:5px;}
+
+    .coins div{Width:55px; display:inline-block;}
+
     </style>
 
     <script>
-    //Start calculate function for penny amount
-    function calculate() {
-        var list = []
-        var x = document.getElementById("pennies").value;
-            //First take pennies, divide by 200 to get the amount of £2 coins from pennies
-            resultTwoPounds = x/200;
-            //Push this amount to array and round down using math.floor
-            list.push(Math.floor(resultTwoPounds));
-            //Now the same for £1 coins but without multiplying
-            resultPounds = x/100;
-            list.push(Math.floor(resultPounds));
-            //Now take the remainder and divide by the coin amounts to get amount for each coin type 
-            //For 50p
-            remaining = x%100;
-            remainPennyFifty = Math.floor(remaining/50);
-            list.push(remainPennyFifty);
-            //For 20p
-            remaining = x%100;
-            remainPennyTwenty = Math.floor(remaining/20);
-            list.push(remainPennyTwenty);
-            //For 10p
-            remaining = x%100;
-            remainPennyTen = Math.floor(remaining/10);
-            list.push(remainPennyTen);
-            //For 5p
-            remaining = x%10;
-            list.push(Math.floor(remaining/5));
-            //For 2p
-            remaining = x%10;
-            list.push(Math.floor(remaining/2));
-            //For 1p
-            remaining = x%10;
-            list.push(Math.floor(remaining));
-            //If pennies > 0 then set resultLine to show amounts by calling array values
-            if (x > 0){
-                resultLine = "You have <strong>" + x + " pennies</strong>, breakdown as follows: <br><br><strong>£2</strong> *" + list[0] + "<br><br><strong>" + "£1</strong> *" + list[1] + "<br><br><strong>50p</strong>" + " *" + list[2] + "<br><br><strong>20p</strong>" + " *" + list[3]+ "<br><br><strong>10p</strong>" + " *" + list[4] + "<br><br><strong>5p</strong>" + " *" + list[5] + "<br><br><strong>2p</strong>" + " *" + list[6] + "<br><br><strong>1p</strong>" + " *" + list[7]
-            //Else return error message
-            } else {
-                resultLine = "Please enter an amount"
-            }
-            //Get html element to display resultLine
-            document.getElementById('result').innerHTML = resultLine;
-            //Stops page reloading once submit button pressed
-            $("#submit").submit(function(e) {
-                e.preventDefault();
-            });
+    const divide = (x, y) => { return [Math.floor(x / y), x % y] };
+
+    const calculate = function() {
+        let obj = {};
+        let x = document.querySelector('#pennies').value;
+
+        [ obj['twoPounds'], x ] = divide(x, 200);
+        [ obj['onePound'], x ] = divide(x, 100);
+        [ obj['fiftyPence'], x ] = divide(x, 50);
+        [ obj['twentyPence'], x ] = divide(x, 20);
+        [ obj['tenPence'], x ] = divide(x, 10);
+        [ obj['fivePence'], x ] = divide(x, 5);
+        [ obj['twoPence'], x ] = divide(x, 2);
+        [ obj['onePence'], x ] = divide(x, 1);
+
+     var result =  `<div class="coins">`;
+     result += `<span>Change calculation as follows:</span><br><br>`;
+
+     if (obj.twoPounds)
+      result += `<div id="twoPound"><span><strong>${obj.twoPounds}</strong> x £2</span></div>`;
+
+    if (obj.onePound)  
+      result += `<div id="onePound"><span><strong>${obj.onePound}</strong> x £1</span></div>`;
+
+    if (obj.fiftyPence)
+      result += `<div id="fiftyPence"><span><strong>${obj.fiftyPence}</strong> x 50p</span></div>`;
+  
+    if (obj.twentyPence)
+      result += `<div id="twentyPence"><span><strong>${obj.twentyPence}</strong> x 20p</span></div>`;
+
+    if (obj.tenPence)
+      result += `<div id="tenPence"><span><strong>${obj.tenPence}</strong> x 10p</span></div>`;
+
+    if (obj.fivePence)
+      result += `<div id="fivePence"><span><strong>${obj.fivePence}</strong> x 5p</span></div>`;
+
+    if (obj.twoPence)
+      result += `<div id="twoPence"><span><strong>${obj.twoPence}</strong> x 2p</span></div>`;
+
+    if (obj.onePence)
+      result += `<div id="onePence"><span><strong>${obj.onePence}</strong> x 1p</span></div>`;
+
+    result += `</div>`;
+    document.querySelector('#result').innerHTML = result;
+    return false;
     }
     </script>
 </head>
@@ -70,19 +89,19 @@
     <h1>pennyCalc<h1>
 </div>
 
-<!-- Start of the form -->
+<!--Start of the form-->
 <form onsubmit="return false">
     <div class="mainCalc">
         <br>
         <strong>p:</strong>
         <input type="number" placeholder=" Amount" step="1"  min="0" id="pennies">
         <br>
-        <!-- Once submit is clicked, run calculate function -->
+        <!--Once submit is clicked, run calculate function-->
         <button type="buttom" id="submit" onclick="calculate()">Calculate!</button>
         <br>
     </div>
 <form>
-    <!-- Area which resultLine is printed to -->
+    <!--Area which resultLine is printed to-->
     <div id="printResult"><span id="result"></span></div>
 </body>
 
