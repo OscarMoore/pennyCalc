@@ -6,4 +6,5 @@ A simple change calculator able to:
 · Show only required change, using text & images.
 
 Future:
+
 · Validation for input types.
