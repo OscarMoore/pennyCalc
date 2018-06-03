@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>pennyCalc - The ultimate penny calculator!</title>
+    <title>pennyCalc - The Ultimate Penny Calculator!</title>
     <!--Some simple styling-->
     <style>
     #pennies{width:6em; vertical-align:middle;}
@@ -56,7 +56,7 @@
      if (obj.twoPounds)
       result += `<div id="twoPound"><span><strong>${obj.twoPounds}</strong> x £2</span></div>`;
 
-    if (obj.onePound)  
+    if (obj.onePound)
       result += `<div id="onePound"><span><strong>${obj.onePound}</strong> x £1</span></div>`;
 
     if (obj.fiftyPence)
@@ -94,7 +94,7 @@
     <div class="mainCalc">
         <br>
         <strong>p:</strong>
-        <input type="number" placeholder=" Amount" step="1"  min="0" id="pennies">
+        <input type="input" placeholder=" Amount" step="1"  min="0" id="pennies" pattern="[1-9][0-9]*">
         <br>
         <!--Once submit is clicked, run calculate function-->
         <button type="buttom" id="submit" onclick="calculate()">Calculate!</button>
