@@ -12,7 +12,7 @@
     .headings{text-align:center;color:white;}
     body{margin-top:200px; background-color:lightblue;}
     #printResult{text-align:center; padding-top:40px;}
-
+    /*Coin images and text*/
     #twoPound{background-image: url('Images/2Pound.png');background-repeat: no-repeat;background-position: center; padding:41px;}
     #twoPound span{background-color:white; padding:5px;}
     #onePound{background-image: url('Images/1Pound.png');background-repeat: no-repeat;background-position: center; padding:41px;}
@@ -29,18 +29,19 @@
     #twoPence span{background-color:white; padding:5px;}
     #onePence{background-image: url('Images/1Pence.png');background-repeat: no-repeat;background-position: center; padding:41px;}
     #onePence span{background-color:white; padding:5px;}
-
+    /*Multiple coin positioning*/
     .coins div{Width:55px; display:inline-block;}
-
     </style>
 
     <script>
+    //Start of divide variable, gets the answer and rounds down, then finds the remainder
     const divide = (x, y) => { return [Math.floor(x / y), x % y] };
-
+    //Start of calculate variable /function
     const calculate = function() {
+    //Setting the array
         let obj = {};
         let x = document.querySelector('#pennies').value;
-
+    //Defining array values for each object
         [ obj['twoPounds'], x ] = divide(x, 200);
         [ obj['onePound'], x ] = divide(x, 100);
         [ obj['fiftyPence'], x ] = divide(x, 50);
@@ -51,8 +52,7 @@
         [ obj['onePence'], x ] = divide(x, 1);
 
      var result =  `<div class="coins">`;
-     result += `<span>Change calculation as follows:</span><br><br>`;
-
+     //If object.xxx exists, show value and append text
      if (obj.twoPounds)
       result += `<div id="twoPound"><span><strong>${obj.twoPounds}</strong> x £2</span></div>`;
 
@@ -75,9 +75,9 @@
       result += `<div id="twoPence"><span><strong>${obj.twoPence}</strong> x 2p</span></div>`;
 
     if (obj.onePence)
-      result += `<div id="onePence"><span><strong>${obj.onePence}</strong> x 1p</span></div>`;
+      result += `<div id="onePence"><span><strong>${obj.onePence}</strong> x 1p</span></div></div>`;
 
-    result += `</div>`;
+     //Selecting #result area to display calculation result
     document.querySelector('#result').innerHTML = result;
     return false;
     }
@@ -85,6 +85,7 @@
 </head>
 
 <body>
+<!--Header syling-->
 <div class="headings">
     <h1>pennyCalc<h1>
 </div>
@@ -94,6 +95,7 @@
     <div class="mainCalc">
         <br>
         <strong>p:</strong>
+        <!--Input field with regex-->
         <input type="input" placeholder=" Amount" step="1"  min="0" id="pennies" pattern="[1-9][0-9]*">
         <br>
         <!--Once submit is clicked, run calculate function-->
@@ -101,7 +103,7 @@
         <br>
     </div>
 <form>
-    <!--Area which resultLine is printed to-->
+    <!--Area which result is shown-->
     <div id="printResult"><span id="result"></span></div>
 </body>
 
