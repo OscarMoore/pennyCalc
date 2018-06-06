@@ -7,9 +7,9 @@
     <!--Some simple styling-->
     <style>
     #pennies{width:6em; vertical-align:middle;}
-    #submit{text-align: center;}
+    #submit{text-align: center; margin-top:9px;}
     .mainCalc{text-align:center; align-content:center;}
-    .headings{text-align:center;color:white;}
+    .headings{text-align:center;color:white; margin-bottom:-30px;}
     body{margin-top:200px; background-color:lightblue;}
     #printResult{text-align:center; padding-top:40px;}
     /*Coin images and text*/
@@ -43,58 +43,83 @@
           #fiftyPence{font-size:15px;background-size:100px;}
           #onePound{font-size:15px;background-size:110px;}
           #twoPound{font-size:15px;background-size:100px;}
-          #submit{font-size:20px;}
+          #submit{font-size:20px; width:300px; height:auto;}
+          #pennies{width:70px; height:30px;}
+          #submit{text-align: center; margin-top:30px;}
      }
     </style>
 
     <script>
     //Start of divide variable, gets the answer and rounds down, then finds the remainder
     const divide = (x, y) => { return [Math.floor(x / y), x % y] };
-    //Start of calculate variable /function
+    //Start of calculate variable/function
     const calculate = function() {
     //Setting the array
         let obj = {};
         let x = document.querySelector('#pennies').value;
-    //Defining array values for each object
-        [ obj['twoPounds'], x ] = divide(x, 200);
-        [ obj['onePound'], x ] = divide(x, 100);
-        [ obj['fiftyPence'], x ] = divide(x, 50);
-        [ obj['twentyPence'], x ] = divide(x, 20);
-        [ obj['tenPence'], x ] = divide(x, 10);
-        [ obj['fivePence'], x ] = divide(x, 5);
-        [ obj['twoPence'], x ] = divide(x, 2);
-        [ obj['onePence'], x ] = divide(x, 1);
+      //Defining regex and testing result input
+      var regex = /[^£.p\d]/g;
+      result= regex.test(x);
 
-     var result =  `<div class="coins">`;
-     //If object.xxx exists, show value and append text
-     if (obj.twoPounds)
-      result += `<div id="twoPound"><span><strong>${obj.twoPounds}</strong> x £2</span></div>`;
+      if (!result) {
+          //If result is false then check for first character, if first character is £ then remove it
+          if (x.substr(0, 1) == "£")
+                x = x.substr(1);
+          //If string end equals p, then remove it
+          if (x.substr(x.length - 1, x.length) == "p")
+                x = x.substr(0,x.length - 1);
+          //If result is defined and string contains '.' then split it from result, parse int and times by 100 for pound result
+          if(!isNaN(x) && x.toString().indexOf('.') != -1) {
+              pound = n = (x+"").split(".")[0];
+              pannies = (x+"").split(".")[1];
+              x = ((parseInt(pound)*100) + parseInt(pannies)); 
+          }
 
-    if (obj.onePound)
-      result += `<div id="onePound"><span><strong>${obj.onePound}</strong> x £1</span></div>`;
+          //Defining array values for each object
+          [ obj['twoPounds'], x ] = divide(x, 200);
+          [ obj['onePound'], x ] = divide(x, 100);
+          [ obj['fiftyPence'], x ] = divide(x, 50);
+          [ obj['twentyPence'], x ] = divide(x, 20);
+          [ obj['tenPence'], x ] = divide(x, 10);
+          [ obj['fivePence'], x ] = divide(x, 5);
+          [ obj['twoPence'], x ] = divide(x, 2);
+          [ obj['onePence'], x ] = divide(x, 1);
 
-    if (obj.fiftyPence)
-      result += `<div id="fiftyPence"><span><strong>${obj.fiftyPence}</strong> x 50p</span></div>`;
-  
-    if (obj.twentyPence)
-      result += `<div id="twentyPence"><span><strong>${obj.twentyPence}</strong> x 20p</span></div>`;
+       var result =  `<div class="coins">`;
+       //If object.xxx exists, show value and append text
+       if (obj.twoPounds)
+        result += `<div id="twoPound"><span><strong>${obj.twoPounds}</strong> x £2</span></div>`;
 
-    if (obj.tenPence)
-      result += `<div id="tenPence"><span><strong>${obj.tenPence}</strong> x 10p</span></div>`;
+      if (obj.onePound)
+        result += `<div id="onePound"><span><strong>${obj.onePound}</strong> x £1</span></div>`;
 
-    if (obj.fivePence)
-      result += `<div id="fivePence"><span><strong>${obj.fivePence}</strong> x 5p</span></div>`;
+      if (obj.fiftyPence)
+        result += `<div id="fiftyPence"><span><strong>${obj.fiftyPence}</strong> x 50p</span></div>`;
+    
+      if (obj.twentyPence)
+        result += `<div id="twentyPence"><span><strong>${obj.twentyPence}</strong> x 20p</span></div>`;
 
-    if (obj.twoPence)
-      result += `<div id="twoPence"><span><strong>${obj.twoPence}</strong> x 2p</span></div>`;
+      if (obj.tenPence)
+        result += `<div id="tenPence"><span><strong>${obj.tenPence}</strong> x 10p</span></div>`;
 
-    if (obj.onePence)
-      result += `<div id="onePence"><span><strong>${obj.onePence}</strong> x 1p</span></div></div>`;
+      if (obj.fivePence)
+        result += `<div id="fivePence"><span><strong>${obj.fivePence}</strong> x 5p</span></div>`;
+
+      if (obj.twoPence)
+        result += `<div id="twoPence"><span><strong>${obj.twoPence}</strong> x 2p</span></div>`;
+
+      if (obj.onePence)
+        result += `<div id="onePence"><span><strong>${obj.onePence}</strong> x 1p</span></div></div>`;
+      
+      }else{
+        result = "Input correct number"
+      }
 
      //Selecting #result area to display calculation result
     document.querySelector('#result').innerHTML = result;
     return false;
     }
+
     </script>
 </head>
 
@@ -109,8 +134,8 @@
     <div class="mainCalc">
         <br>
         <strong>p:</strong>
-        <!--Input field with regex-->
-        <input type="number" placeholder=" Amount" step="1"  min="0" id="pennies" pattern="[1-9][0-9]*">
+        <!--Input field-->
+        <input type="text" placeholder=" Amount" step="1"  min="0" id="pennies">
         <br>
         <!--Once submit is clicked, run calculate function-->
         <button type="buttom" id="submit" onclick="calculate()">Calculate!</button>
